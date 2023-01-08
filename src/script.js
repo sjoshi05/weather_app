@@ -1,11 +1,15 @@
-function citySearch(event) {
+function handleSubmit(event) {
   event.preventDefault();
-  let cityInput = document.querySelector(".search-field").value;
+  let cityInput = document.querySelector(".search-field");
+
+  citySearch(cityInput.value);
+}
+
+function citySearch(cityInput) {
   let apiKey = "2f930a1e3f970e4f60d0e8dcf2ba2ce1";
   let geocodingApiUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityInput}&limit=1&appid=${apiKey}`;
 
   axios.get(geocodingApiUrl).then(displaySearchCity);
-
   axios.get(geocodingApiUrl).then(getMetricWeatherApiUrl);
 }
 
@@ -26,8 +30,6 @@ function searchCurrentLocation(position) {
   axios.get(weatherApiUrl).then(getCurrentWeatherDescription);
   axios.get(weatherApiUrl).then(getCurrentWeatherIcon);
   axios.get(weatherApiUrl).then(getCurrentWeatherDetails);
-
-  console.log(weatherApiUrl);
 }
 
 function displaySearchCity(response) {
@@ -160,8 +162,10 @@ function getCurrentWeatherDetails(response) {
   sunsetDisplayed.innerHTML = `Sunset: ${sunsetConverted}`;
 }
 
+citySearch("Lisbon");
+
 let searchSubmit = document.querySelector("#search-form");
-searchSubmit.addEventListener("submit", citySearch);
+searchSubmit.addEventListener("submit", handleSubmit);
 
 let currentLocation = document.querySelector(".current-location");
 currentLocation.addEventListener("click", getCurrentLocation);
