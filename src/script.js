@@ -26,10 +26,7 @@ function searchCurrentLocation(position) {
 
   axios.get(weatherApiUrl).then(displayCurrentCity);
   axios.get(weatherApiUrl).then(currentDayAndTime);
-  axios.get(weatherApiUrl).then(getCelsiusTemp);
-  axios.get(weatherApiUrl).then(getCurrentWeatherDescription);
-  axios.get(weatherApiUrl).then(getCurrentWeatherIcon);
-  axios.get(weatherApiUrl).then(getCurrentWeatherDetails);
+  axios.get(weatherApiUrl).then(displayWeather);
 }
 
 function displaySearchCity(response) {
@@ -78,59 +75,26 @@ function getMetricWeatherApiUrl(response) {
   let apiKey = "2f930a1e3f970e4f60d0e8dcf2ba2ce1";
   let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
 
-  axios.get(weatherApiUrl).then(getCelsiusTemp);
-  axios.get(weatherApiUrl).then(getCurrentWeatherDescription);
-  axios.get(weatherApiUrl).then(getCurrentWeatherIcon);
-  axios.get(weatherApiUrl).then(getCurrentWeatherDetails);
+  axios.get(weatherApiUrl).then(displayWeather);
 }
 
-function getCelsiusTemp(response) {
-  let celsiusTemp = Math.round(response.data.main.temp);
-  let currentTemp = document.querySelector(".current-temp-number");
-  let celsiusLink = document.querySelector("#celsius-link");
-  let fahrenheitLink = document.querySelector("#fahrenheit-link");
+function displayWeather(response) {
+  let currentTemp = document.querySelector("#current-temp-number");
+  celsiusTemp = Math.round(response.data.main.temp);
   currentTemp.innerHTML = celsiusTemp;
-  celsiusLink.style.color = "black";
-  fahrenheitLink.style.color = "#0A79D8";
-}
 
-function getFahrenheitWeatherApiUrl(response) {
-  let lat = response.data[0].lat;
-  let lon = response.data[0].lon;
-  let units = "imperial";
-  let apiKey = "2f930a1e3f970e4f60d0e8dcf2ba2ce1";
-  let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
-
-  axios.get(weatherApiUrl).then(getFahrenheitTemp);
-}
-
-function getFahrenheitTemp() {
-  let fahrenheitTemp = Math.round(response.data.main.temp);
-  let currentTemp = document.querySelector(".current-temp-number");
-  let celsiusLink = document.querySelector("#celsius-link");
-  let fahrenheitLink = document.querySelector("#fahrenheit-link");
-  currentTemp.innerHTML = fahrenheitTemp;
-  fahrenheitLink.style.color = "black";
-  celsiusLink.style.color = "#0A79D8";
-}
-
-function getCurrentWeatherDescription(response) {
   let currentWeatherDescription = document.querySelector(
     "#current-weather-description"
   );
   currentWeatherDescription.innerHTML = response.data.weather[0].description;
-}
 
-function getCurrentWeatherIcon(response) {
   let currentIcon = document.querySelector("#current-weather-icon");
   currentIcon.setAttribute(
     "src",
     `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
   );
   currentIcon.setAttribute("alt", `${response.data.weather[0]}.description`);
-}
 
-function getCurrentWeatherDetails(response) {
   let humidity = document.querySelector("#humidity");
   humidity.innerHTML = `Humidity: ${response.data.main.humidity}%`;
 
@@ -162,7 +126,18 @@ function getCurrentWeatherDetails(response) {
   sunsetDisplayed.innerHTML = `Sunset: ${sunsetConverted}`;
 }
 
-citySearch("Lisbon");
+function displayCelsiusTemp(event) {
+  event.preventDefault();
+  let currentTemp = document.querySelector("#current-temp-number");
+  currentTemp.innerHTML = celsiusTemp;
+}
+
+function getFahrenheitTemp(event) {
+  event.preventDefault();
+  let fahrenheitTemp = Math.round(celsiusTemp * (9 / 5) + 32);
+  let currentTemp = document.querySelector("#current-temp-number");
+  currentTemp.innerHTML = fahrenheitTemp;
+}
 
 let searchSubmit = document.querySelector("#search-form");
 searchSubmit.addEventListener("submit", handleSubmit);
@@ -170,8 +145,12 @@ searchSubmit.addEventListener("submit", handleSubmit);
 let currentLocation = document.querySelector(".current-location");
 currentLocation.addEventListener("click", getCurrentLocation);
 
+let celsiusTemp = null;
+
 let celsiusSelected = document.querySelector("#celsius-link");
-celsiusSelected.addEventListener("click", getCelsiusTemp);
+celsiusSelected.addEventListener("click", displayCelsiusTemp);
 
 let fahrenheitSelected = document.querySelector("#fahrenheit-link");
 fahrenheitSelected.addEventListener("click", getFahrenheitTemp);
+
+citySearch("Lisbon");
