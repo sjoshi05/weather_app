@@ -21,9 +21,12 @@ function searchCurrentLocation(position) {
   let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
 
   axios.get(weatherApiUrl).then(displayCurrentCity);
+  axios.get(weatherApiUrl).then(currentDayAndTime);
   axios.get(weatherApiUrl).then(getCelsiusTemp);
   axios.get(weatherApiUrl).then(getCurrentWeatherDescription);
   axios.get(weatherApiUrl).then(getCurrentWeatherDetails);
+
+  console.log(weatherApiUrl);
 }
 
 function displaySearchCity(response) {
@@ -36,8 +39,20 @@ function displayCurrentCity(response) {
   cityDisplayed.innerHTML = `${response.data.name}, ${response.data.sys.country}`;
 }
 
-function currentDayAndTime() {
-  let now = new Date();
+function currentDayAndTime(response) {
+  let timezoneOffset = response.data.timezone;
+  let timestampUnix = response.data.dt + timezoneOffset;
+
+  let timeConverted = new Date(timestampUnix * 1000).toLocaleTimeString(
+    "en-GB",
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
+
+  let dateConverted = new Date(timestampUnix * 1000);
+
   let days = [
     "Sunday",
     "Monday",
@@ -47,13 +62,10 @@ function currentDayAndTime() {
     "Friday",
     "Saturday",
   ];
-  let currentDay = days[now.getDay()];
-  let currentTime = `${String(now.getHours()).padStart(2, "0")}:${String(
-    now.getMinutes()
-  ).padStart(2, "0")}`;
-  let currentDayTime = document.querySelector("#current-day-time");
-  currentDayTime.innerHTML = `${currentDay} ${currentTime}`;
-  return currentDayTime;
+
+  let day = days[dateConverted.getDay()];
+  let timestampDisplayed = document.querySelector("#last-update");
+  timestampDisplayed.innerHTML = `${day} ${timeConverted}`;
 }
 
 function getMetricWeatherApiUrl(response) {
@@ -148,5 +160,3 @@ celsiusSelected.addEventListener("click", getCelsiusTemp);
 
 let fahrenheitSelected = document.querySelector("#fahrenheit-link");
 fahrenheitSelected.addEventListener("click", getFahrenheitTemp);
-
-currentDayAndTime();

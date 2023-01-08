@@ -28,6 +28,14 @@ h2 {
   margin-top: 5px;
   text-align: center;
 }
+
+ul {
+  float: left;
+  line-height: 0.7;
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+}
 .current-weather {
   background-color: rgba(68, 174, 232, 0.35);
   border-radius: 10px;
