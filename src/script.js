@@ -20,9 +20,10 @@ function searchCurrentLocation(position) {
   let apiKey = "2f930a1e3f970e4f60d0e8dcf2ba2ce1";
   let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
 
+  axios.get(weatherApiUrl).then(displayCurrentCity);
   axios.get(weatherApiUrl).then(getCelsiusTemp);
   axios.get(weatherApiUrl).then(getCurrentWeatherDescription);
-  axios.get(weatherApiUrl).then(displayCurrentCity);
+  axios.get(weatherApiUrl).then(getCurrentWeatherDetails);
 }
 
 function displaySearchCity(response) {
@@ -64,6 +65,7 @@ function getMetricWeatherApiUrl(response) {
 
   axios.get(weatherApiUrl).then(getCelsiusTemp);
   axios.get(weatherApiUrl).then(getCurrentWeatherDescription);
+  axios.get(weatherApiUrl).then(getCurrentWeatherDetails);
 }
 
 function getCelsiusTemp(response) {
@@ -101,6 +103,38 @@ function getCurrentWeatherDescription(response) {
     "#current-weather-description"
   );
   currentWeatherDescription.innerHTML = response.data.weather[0].description;
+}
+
+function getCurrentWeatherDetails(response) {
+  let humidity = document.querySelector("#humidity");
+  humidity.innerHTML = `Humidity: ${response.data.main.humidity}%`;
+
+  let wind = document.querySelector("#wind");
+  wind.innerHTML = `Wind: ${Math.round(response.data.wind.speed)} km/h`;
+
+  let timezoneOffset = response.data.timezone;
+
+  let sunriseUnix = response.data.sys.sunrise + timezoneOffset;
+  let sunriseConverted = new Date(sunriseUnix * 1000).toLocaleTimeString(
+    "en-GB",
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
+  let sunriseDisplayed = document.querySelector("#sunrise");
+  sunriseDisplayed.innerHTML = `Sunrise: ${sunriseConverted}`;
+
+  let sunsetUnix = response.data.sys.sunset + timezoneOffset;
+  let sunsetConverted = new Date(sunsetUnix * 1000).toLocaleTimeString(
+    "en-GB",
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
+  let sunsetDisplayed = document.querySelector("#sunset");
+  sunsetDisplayed.innerHTML = `Sunset: ${sunsetConverted}`;
 }
 
 let searchSubmit = document.querySelector("#search-form");
