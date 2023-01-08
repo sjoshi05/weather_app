@@ -63,6 +63,10 @@ ul {
   vertical-align: 22px;
 }
 
+.degree-selector .active {
+  color: rgb(33, 33, 33);
+}
+
 a {
   text-decoration: none;
 }

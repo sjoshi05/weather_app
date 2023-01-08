@@ -130,6 +130,9 @@ function displayCelsiusTemp(event) {
   event.preventDefault();
   let currentTemp = document.querySelector("#current-temp-number");
   currentTemp.innerHTML = celsiusTemp;
+
+  fahrenheitSelected.classList.remove("active");
+  celsiusSelected.classList.add("active");
 }
 
 function getFahrenheitTemp(event) {
@@ -137,6 +140,9 @@ function getFahrenheitTemp(event) {
   let fahrenheitTemp = Math.round(celsiusTemp * (9 / 5) + 32);
   let currentTemp = document.querySelector("#current-temp-number");
   currentTemp.innerHTML = fahrenheitTemp;
+
+  celsiusSelected.classList.remove("active");
+  fahrenheitSelected.classList.add("active");
 }
 
 let searchSubmit = document.querySelector("#search-form");
