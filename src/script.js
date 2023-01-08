@@ -24,6 +24,7 @@ function searchCurrentLocation(position) {
   axios.get(weatherApiUrl).then(currentDayAndTime);
   axios.get(weatherApiUrl).then(getCelsiusTemp);
   axios.get(weatherApiUrl).then(getCurrentWeatherDescription);
+  axios.get(weatherApiUrl).then(getCurrentWeatherIcon);
   axios.get(weatherApiUrl).then(getCurrentWeatherDetails);
 
   console.log(weatherApiUrl);
@@ -77,6 +78,7 @@ function getMetricWeatherApiUrl(response) {
 
   axios.get(weatherApiUrl).then(getCelsiusTemp);
   axios.get(weatherApiUrl).then(getCurrentWeatherDescription);
+  axios.get(weatherApiUrl).then(getCurrentWeatherIcon);
   axios.get(weatherApiUrl).then(getCurrentWeatherDetails);
 }
 
@@ -115,6 +117,15 @@ function getCurrentWeatherDescription(response) {
     "#current-weather-description"
   );
   currentWeatherDescription.innerHTML = response.data.weather[0].description;
+}
+
+function getCurrentWeatherIcon(response) {
+  let currentIcon = document.querySelector("#current-weather-icon");
+  currentIcon.setAttribute(
+    "src",
+    `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+  );
+  currentIcon.setAttribute("alt", `${response.data.weather[0]}.description`);
 }
 
 function getCurrentWeatherDetails(response) {

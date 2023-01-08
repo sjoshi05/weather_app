@@ -50,8 +50,7 @@ ul {
 #current-weather-description {
   text-transform: capitalize;
 }
-.fa-cloud-moon {
-  color: rgb(60, 115, 143);
+#current-weather-icon {
   font-size: 60px;
   text-align: left;
 }
