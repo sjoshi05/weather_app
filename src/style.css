@@ -51,8 +51,9 @@ ul {
   text-transform: capitalize;
 }
 #current-weather-icon {
-  font-size: 60px;
-  text-align: left;
+  height: 100%;
+  margin: 0px;
+  padding-bottom: 30px;
 }
 .current-temp-number {
   font-size: 65px;
