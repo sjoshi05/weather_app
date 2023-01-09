@@ -31,11 +31,12 @@ h2 {
 
 ul {
   float: left;
-  line-height: 0.7;
+  line-height: 1;
   list-style-type: none;
   margin: 0px;
   padding: 0px;
 }
+
 .current-weather {
   background-color: rgba(68, 174, 232, 0.35);
   border-radius: 10px;
@@ -44,10 +45,12 @@ ul {
 }
 .current-weather-summary {
   font-size: 16px;
-  margin-top: 0;
+  margin: 0;
+  padding: 0;
   text-align: left;
+  line-height: 0.8;
 }
-#current-weather-description {
+#current-weather-description:first-letter {
   text-transform: capitalize;
 }
 #current-weather-icon {
@@ -75,6 +78,20 @@ a {
   margin: 10px;
   padding: 0px 30px;
 }
+
+.footnote-icon {
+  font-size: small;
+  vertical-align: super;
+}
+
+.last-update-note {
+  border-top: 1px solid rgba(68, 174, 232, 0.5);
+  font-size: small;
+  float: left;
+  padding: 2px;
+  margin-left: 68px;
+}
+
 .fa-cloud-rain {
   color: rgb(21, 74, 189);
 }

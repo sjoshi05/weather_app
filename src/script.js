@@ -10,6 +10,7 @@ function citySearch(cityInput) {
   let geocodingApiUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityInput}&limit=1&appid=${apiKey}`;
 
   axios.get(geocodingApiUrl).then(displaySearchCity);
+
   axios.get(geocodingApiUrl).then(getMetricWeatherApiUrl);
 }
 
@@ -75,6 +76,7 @@ function getMetricWeatherApiUrl(response) {
   let apiKey = "2f930a1e3f970e4f60d0e8dcf2ba2ce1";
   let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
 
+  axios.get(weatherApiUrl).then(currentDayAndTime);
   axios.get(weatherApiUrl).then(displayWeather);
 }
 
