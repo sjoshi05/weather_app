@@ -147,6 +147,29 @@ function getFahrenheitTemp(event) {
   fahrenheitSelected.classList.add("active");
 }
 
+function displayForecast() {
+  let forecastElement = document.querySelector("#forecast-grid");
+
+  let forecastHTML = `<div class="row">`;
+  let days = ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  days.foreach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `
+        <div class="col">
+          <div class="forecast-day"> ${day} </div>
+          <img src="http://openweathermap.org/img/wn/10d@2x.png" alt="" class="five-days-forecast-icons">
+          <br />
+          <span class="high-temp">18°</span> |
+          <span class="low-temp">17°</span>
+        </div>
+      </div>`;
+
+    forecastHTML = forecastHTML + `</div>`;
+
+    forecastElement.innerHTML = forecastHTML;
+  });
+}
 let searchSubmit = document.querySelector("#search-form");
 searchSubmit.addEventListener("submit", handleSubmit);
 
@@ -160,5 +183,5 @@ celsiusSelected.addEventListener("click", displayCelsiusTemp);
 
 let fahrenheitSelected = document.querySelector("#fahrenheit-link");
 fahrenheitSelected.addEventListener("click", getFahrenheitTemp);
-
+displayForecast();
 citySearch("Lisbon");
