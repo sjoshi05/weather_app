@@ -10,8 +10,8 @@ function citySearch(cityInput) {
   let geocodingApiUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityInput}&limit=1&appid=${apiKey}`;
 
   axios.get(geocodingApiUrl).then(displaySearchCity);
-
   axios.get(geocodingApiUrl).then(getMetricWeatherApiUrl);
+  axios.get(geocodingApiUrl).then(getForecast);
 }
 
 function getCurrentLocation(event) {
@@ -147,7 +147,18 @@ function getFahrenheitTemp(event) {
   fahrenheitSelected.classList.add("active");
 }
 
-function displayForecast() {
+function getForecast(response) {
+  let lat = response.data[0].lat;
+  let lon = response.data[0].lon;
+  let units = "metric";
+  let apiKey = "e4f4205dbc58tb74afad5c9e48f3co33";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${lon}&lat=${lat}&key=${apiKey}&units=${units}
+`;
+
+  axios.get(apiUrl).then(displayForecast);
+}
+
+function displayForecast(response) {
   let forecastElement = document.querySelector("#forecast-grid");
 
   let forecastHTML = `<div class="row">`;
