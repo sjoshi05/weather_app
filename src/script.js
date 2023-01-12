@@ -3,15 +3,17 @@ function handleSubmit(event) {
   let cityInput = document.querySelector(".search-field");
 
   citySearch(cityInput.value);
+  getForecast(cityInput.value);
 }
 
 function citySearch(cityInput) {
-  let apiKey = "2f930a1e3f970e4f60d0e8dcf2ba2ce1";
-  let geocodingApiUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityInput}&limit=1&appid=${apiKey}`;
+  let apiKey = "e4f4205dbc58tb74afad5c9e48f3co33";
+  let units = "metric";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${cityInput}&key=${apiKey}&units=${units}`;
 
-  axios.get(geocodingApiUrl).then(displaySearchCity);
-  axios.get(geocodingApiUrl).then(getMetricWeatherApiUrl);
-  axios.get(geocodingApiUrl).then(getForecast);
+  axios.get(apiUrl).then(displaySearchCity);
+  axios.get(apiUrl).then(currentDayAndTime);
+  axios.get(apiUrl).then(displayWeather);
 }
 
 function getCurrentLocation(event) {
@@ -32,7 +34,7 @@ function searchCurrentLocation(position) {
 
 function displaySearchCity(response) {
   let cityDisplayed = document.querySelector("h1");
-  cityDisplayed.innerHTML = `${response.data[0].name}, ${response.data[0].country}`;
+  cityDisplayed.innerHTML = `${response.data.city}, ${response.data.country}`;
 }
 
 function displayCurrentCity(response) {
@@ -41,8 +43,7 @@ function displayCurrentCity(response) {
 }
 
 function currentDayAndTime(response) {
-  let timezoneOffset = response.data.timezone;
-  let timestampUnix = response.data.dt + timezoneOffset;
+  let timestampUnix = response.data.time;
 
   let timeConverted = new Date(timestampUnix * 1000).toLocaleTimeString(
     "en-GB",
@@ -69,63 +70,28 @@ function currentDayAndTime(response) {
   timestampDisplayed.innerHTML = `${day} ${timeConverted}`;
 }
 
-function getMetricWeatherApiUrl(response) {
-  let lat = response.data[0].lat;
-  let lon = response.data[0].lon;
-  let units = "metric";
-  let apiKey = "2f930a1e3f970e4f60d0e8dcf2ba2ce1";
-  let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
-
-  axios.get(weatherApiUrl).then(currentDayAndTime);
-  axios.get(weatherApiUrl).then(displayWeather);
-}
-
 function displayWeather(response) {
   let currentTemp = document.querySelector("#current-temp-number");
-  celsiusTemp = Math.round(response.data.main.temp);
+  celsiusTemp = Math.round(response.data.temperature.current);
   currentTemp.innerHTML = celsiusTemp;
 
   let currentWeatherDescription = document.querySelector(
     "#current-weather-description"
   );
-  currentWeatherDescription.innerHTML = response.data.weather[0].description;
+  currentWeatherDescription.innerHTML = response.data.condition.description;
 
   let currentIcon = document.querySelector("#current-weather-icon");
   currentIcon.setAttribute(
     "src",
-    `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+    `http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.condition.icon}.png`
   );
-  currentIcon.setAttribute("alt", `${response.data.weather[0]}.description`);
+  currentIcon.setAttribute("alt", `${response.data.condition.description}`);
 
   let humidity = document.querySelector("#humidity");
-  humidity.innerHTML = `Humidity: ${response.data.main.humidity}%`;
+  humidity.innerHTML = `Humidity: ${response.data.temperature.humidity}%`;
 
   let wind = document.querySelector("#wind");
   wind.innerHTML = `Wind: ${Math.round(response.data.wind.speed)} km/h`;
-
-  let timezoneOffset = response.data.timezone;
-
-  let sunriseUnix = response.data.sys.sunrise + timezoneOffset;
-  let sunriseConverted = new Date(sunriseUnix * 1000).toLocaleTimeString(
-    "en-GB",
-    {
-      hour: "2-digit",
-      minute: "2-digit",
-    }
-  );
-  let sunriseDisplayed = document.querySelector("#sunrise");
-  sunriseDisplayed.innerHTML = `Sunrise: ${sunriseConverted}`;
-
-  let sunsetUnix = response.data.sys.sunset + timezoneOffset;
-  let sunsetConverted = new Date(sunsetUnix * 1000).toLocaleTimeString(
-    "en-GB",
-    {
-      hour: "2-digit",
-      minute: "2-digit",
-    }
-  );
-  let sunsetDisplayed = document.querySelector("#sunset");
-  sunsetDisplayed.innerHTML = `Sunset: ${sunsetConverted}`;
 }
 
 function displayCelsiusTemp(event) {
@@ -147,18 +113,17 @@ function getFahrenheitTemp(event) {
   fahrenheitSelected.classList.add("active");
 }
 
-function getForecast(response) {
-  let lat = response.data[0].lat;
-  let lon = response.data[0].lon;
+function getForecast(cityInput) {
   let units = "metric";
   let apiKey = "e4f4205dbc58tb74afad5c9e48f3co33";
-  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${lon}&lat=${lat}&key=${apiKey}&units=${units}
-`;
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${cityInput}&key=${apiKey}&units=${units}`;
 
   axios.get(apiUrl).then(displayForecast);
 }
 
 function displayForecast(response) {
+  console.log(response.data.daily);
+
   let forecastElement = document.querySelector("#forecast-grid");
 
   let forecastHTML = `<div class="row">`;
