@@ -3,7 +3,7 @@ function handleSubmit(event) {
   let cityInput = document.querySelector(".search-field");
 
   citySearch(cityInput.value);
-  getForecast(cityInput.value);
+  getSearchForecast(cityInput.value);
 }
 
 function citySearch(cityInput) {
@@ -16,20 +16,31 @@ function citySearch(cityInput) {
   axios.get(apiUrl).then(displayWeather);
 }
 
-function getCurrentLocation(event) {
-  navigator.geolocation.getCurrentPosition(searchCurrentLocation);
+function getCurrentLocation(position) {
+  navigator.geolocation.getCurrentPosition(getCurrentLocationWeather);
+  navigator.geolocation.getCurrentPosition(getCurrentLocationForecast);
 }
 
-function searchCurrentLocation(position) {
+function getCurrentLocationWeather(position) {
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
   let units = "metric";
-  let apiKey = "2f930a1e3f970e4f60d0e8dcf2ba2ce1";
-  let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
+  let apiKey = "e4f4205dbc58tb74afad5c9e48f3co33";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?lon=${lon}&lat=${lat}&key=${apiKey}&units=${units}`;
 
-  axios.get(weatherApiUrl).then(displayCurrentCity);
-  axios.get(weatherApiUrl).then(currentDayAndTime);
-  axios.get(weatherApiUrl).then(displayWeather);
+  axios.get(apiUrl).then(displayCurrentCity);
+  axios.get(apiUrl).then(currentDayAndTime);
+  axios.get(apiUrl).then(displayWeather);
+}
+
+function getCurrentLocationForecast(position) {
+  let lat = position.coords.latitude;
+  let lon = position.coords.longitude;
+  let units = "metric";
+  let apiKey = "e4f4205dbc58tb74afad5c9e48f3co33";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${lon}&lat=${lat}&key=${apiKey}&units=${units}`;
+
+  axios.get(apiUrl).then(displayForecast);
 }
 
 function displaySearchCity(response) {
@@ -39,7 +50,7 @@ function displaySearchCity(response) {
 
 function displayCurrentCity(response) {
   let cityDisplayed = document.querySelector("h1");
-  cityDisplayed.innerHTML = `${response.data.name}, ${response.data.sys.country}`;
+  cityDisplayed.innerHTML = `${response.data.city}, ${response.data.country}`;
 }
 
 function currentDayAndTime(response) {
@@ -113,7 +124,7 @@ function getFahrenheitTemp(event) {
   fahrenheitSelected.classList.add("active");
 }
 
-function getForecast(cityInput) {
+function getSearchForecast(cityInput) {
   let units = "metric";
   let apiKey = "e4f4205dbc58tb74afad5c9e48f3co33";
   let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${cityInput}&key=${apiKey}&units=${units}`;
