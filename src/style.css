@@ -11,19 +11,19 @@ body {
   border-radius: 10px;
   font-family: "Roboto", sans-serif;
   margin: 20px auto;
-  max-width: 800px;
+  max-width: 650px;
   padding: 15px 20px 5px 20px;
   text-align: center;
 }
 
 h1 {
-  font-size: 40px;
-  margin-bottom: 0;
+  font-size: 35px;
+  margin-bottom: 5px;
   text-align: left;
 }
 
 h2 {
-  font-size: 22px;
+  font-size: 18px;
   line-height: 40px;
   margin-top: 5px;
   text-align: center;
@@ -31,10 +31,7 @@ h2 {
 
 ul {
   float: left;
-  line-height: 1;
   list-style-type: none;
-  margin: 0px;
-  padding: 0px;
 }
 
 .current-weather {
@@ -45,10 +42,11 @@ ul {
 }
 .current-weather-summary {
   font-size: 16px;
-  margin: 0;
   padding: 0;
   text-align: left;
   line-height: 0.8;
+  margin-top: 3px;
+  margin-bottom: 10px;
 }
 #current-weather-description:first-letter {
   text-transform: capitalize;
@@ -56,14 +54,14 @@ ul {
 #current-weather-icon {
   height: 100%;
   margin: 0px;
-  padding-bottom: 30px;
+  vertical-align: -30px;
 }
 .current-temp-number {
-  font-size: 65px;
+  font-size: 60px;
 }
 .degree-selector {
-  font-size: 30px;
-  vertical-align: 22px;
+  font-size: 20px;
+  vertical-align: 28px;
 }
 
 .degree-selector .active {
@@ -77,19 +75,12 @@ a {
   font-size: 16px;
   margin: 10px;
   padding: 0px 30px;
+  text-align: left;
 }
 
 .footnote-icon {
   font-size: small;
   vertical-align: super;
-}
-
-.last-update-note {
-  border-top: 1px solid rgba(68, 174, 232, 0.5);
-  font-size: small;
-  float: left;
-  padding: 2px;
-  margin-left: 68px;
 }
 
 .five-days-weather {
@@ -101,8 +92,8 @@ a {
 }
 
 .forecast-day {
-  font-weight: 700;
-  font-size: 22px;
+  font-weight: 500;
+  font-size: 20px;
   line-height: 1;
 }
 
@@ -129,7 +120,7 @@ a {
   box-shadow: 1px 1px 3px rgb(0, 0, 0);
   margin: 5px 0px;
   padding: 5px 10px;
-  width: 530px;
+  width: 330px;
 }
 .current-location {
   background-color: rgba(0, 0, 0, 0.8);

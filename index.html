@@ -41,26 +41,24 @@
       <div class="current-weather">
         <h2>CURRENT WEATHER</h2>
         <div class="row">
-          <div class="col-4 offset-1">
+          <div class="col-12 offset-1">
             <h1></h1>
               <ul class="current-weather-summary">
                 <li> Last updated: </span><span id="last-update"></span></li><br />
                 <li id="current-weather-description"></li>
               </ul>
           </div>
-          <div class="col">
-            <p>
+          <div class="col-7">
               <img src="" alt="" id="current-weather-icon">
               <span class="current-temp-number" id="current-temp-number"></span>
               <span class="degree-selector">
                 <a href="#" class= "active" id="celsius-link"> °C </a> |
                 <a href="#" id="fahrenheit-link"> °F </a>
-            </p>
           </div>
+        <div class="col current-weather-details">
+         <div id="humidity">Humidity:</div>
+         <div id="wind">Wind:</div>
         </div>
-        <div class="row current-weather-details">
-         <div class="col" id="humidity">Humidity:</div>
-         <div class="col" id="wind">Wind:</div>
         </div>
       </div>
 
