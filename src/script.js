@@ -165,7 +165,7 @@ function displayForecast(response) {
             <div class="forecast-day"> ${formatForecastDay(
               forecastDay.time
             )} </div>
-            <img src=""http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${
+            <img src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${
               forecastDay.condition.icon
             }.png"," alt="${
           forecastDay.condition.description
