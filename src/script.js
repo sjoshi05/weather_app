@@ -199,6 +199,5 @@ celsiusSelected.addEventListener("click", displayCelsiusTemp);
 let fahrenheitSelected = document.querySelector("#fahrenheit-link");
 fahrenheitSelected.addEventListener("click", getFahrenheitTemp);
 
-displayForecast();
-
 citySearch("Lisbon");
+getSearchForecast("Lisbon");
