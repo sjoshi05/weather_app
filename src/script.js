@@ -121,28 +121,59 @@ function getForecast(cityInput) {
   axios.get(apiUrl).then(displayForecast);
 }
 
-function displayForecast(response) {
-  console.log(response.data.daily);
+function formatForecastDay(timestamp) {
+  let dateConverted = new Date(timestamp * 1000);
 
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  let day = days[dateConverted.getDay()];
+
+  return day;
+}
+
+function displayForecast(response) {
+  let forecast = response.data.daily;
+  console.log(forecast);
   let forecastElement = document.querySelector("#forecast-grid");
 
   let forecastHTML = `<div class="row">`;
-  let days = ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  days.forEach(function (day) {
-    forecastHTML =
-      forecastHTML +
-      `<div class="col">
-          <div class="forecast-day"> ${day} </div>
-          <img src="http://openweathermap.org/img/wn/10d@2x.png" alt="" class="five-days-forecast-icons">
-          <br />
-          <span class="high-temp">18°</span> |
-          <span class="low-temp">17°</span>`;
 
-    forecastHTML = forecastHTML + `</div>`;
+  forecast.forEach(function (forecastDay, index) {
+    if (index < 5) {
+      forecastHTML =
+        forecastHTML +
+        `<div class="col">
+            <div class="forecast-day"> ${formatForecastDay(
+              forecastDay.time
+            )} </div>
+            <img src=""http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${
+              forecastDay.condition.icon
+            }.png"," alt="${
+          forecastDay.condition.description
+        }" class="five-days-forecast-icons">
+            <br />
+            <span class="high-temp">${Math.round(
+              forecastDay.temperature.maximum
+            )}°</span> |
+            <span class="low-temp">${Math.round(
+              forecastDay.temperature.minimum
+            )}°</span>`;
 
-    forecastElement.innerHTML = forecastHTML;
+      forecastHTML = forecastHTML + `</div>`;
+
+      forecastElement.innerHTML = forecastHTML;
+    }
   });
 }
+
 let searchSubmit = document.querySelector("#search-form");
 searchSubmit.addEventListener("submit", handleSubmit);
 
@@ -156,5 +187,7 @@ celsiusSelected.addEventListener("click", displayCelsiusTemp);
 
 let fahrenheitSelected = document.querySelector("#fahrenheit-link");
 fahrenheitSelected.addEventListener("click", getFahrenheitTemp);
+
 displayForecast();
+
 citySearch("Lisbon");
