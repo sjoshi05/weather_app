@@ -40,7 +40,7 @@ function getCurrentLocationForecast(position) {
   let apiKey = "e4f4205dbc58tb74afad5c9e48f3co33";
   let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${lon}&lat=${lat}&key=${apiKey}&units=${units}`;
 
-  axios.get(apiUrl).then(displayForecast);
+  axios.get(apiUrl).then(displayCelsiusForecast);
 }
 
 function displaySearchCity(response) {
@@ -109,19 +109,6 @@ function displayCelsiusTemp(event) {
   event.preventDefault();
   let currentTemp = document.querySelector("#current-temp-number");
   currentTemp.innerHTML = celsiusTemp;
-
-  fahrenheitSelected.classList.remove("active");
-  celsiusSelected.classList.add("active");
-}
-
-function getFahrenheitTemp(event) {
-  event.preventDefault();
-  let fahrenheitTemp = Math.round(celsiusTemp * (9 / 5) + 32);
-  let currentTemp = document.querySelector("#current-temp-number");
-  currentTemp.innerHTML = fahrenheitTemp;
-
-  celsiusSelected.classList.remove("active");
-  fahrenheitSelected.classList.add("active");
 }
 
 function getSearchForecast(cityInput) {
@@ -129,7 +116,7 @@ function getSearchForecast(cityInput) {
   let apiKey = "e4f4205dbc58tb74afad5c9e48f3co33";
   let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${cityInput}&key=${apiKey}&units=${units}`;
 
-  axios.get(apiUrl).then(displayForecast);
+  axios.get(apiUrl).then(displayCelsiusForecast);
 }
 
 function formatForecastDay(timestamp) {
@@ -150,7 +137,7 @@ function formatForecastDay(timestamp) {
   return day;
 }
 
-function displayForecast(response) {
+function displayCelsiusForecast(response) {
   let forecast = response.data.daily;
   console.log(forecast);
   let forecastElement = document.querySelector("#forecast-grid");
@@ -192,12 +179,6 @@ let currentLocation = document.querySelector(".current-location");
 currentLocation.addEventListener("click", getCurrentLocation);
 
 let celsiusTemp = null;
-
-let celsiusSelected = document.querySelector("#celsius-link");
-celsiusSelected.addEventListener("click", displayCelsiusTemp);
-
-let fahrenheitSelected = document.querySelector("#fahrenheit-link");
-fahrenheitSelected.addEventListener("click", getFahrenheitTemp);
 
 citySearch("Lisbon");
 getSearchForecast("Lisbon");
